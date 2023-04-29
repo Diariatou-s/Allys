@@ -1,0 +1,47 @@
+<% layout('./layouts/boilerplate')%>
+
+    <div class="card text-center mb-5 pb-3">
+        <div class="card-header">
+            Facture N°<%= facture.num %>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Patient N°<%= facture.patient.numdossier %> - <%= facture.patient.prenom %>
+                        <%= facture.patient.nom %>
+            </h5>
+            <h5 class="card-title">Service demandé : <%= facture.service.titre %>
+            </h5>
+            <h6 class="card-title">Montant dû:
+                <i id="montantDu">
+                    <strong><%= facture.montantdu %></strong>
+                </i> FCFA
+            </h6>
+            <p class="card-text">
+                Facture créée le <%= facture.datecreation %>
+            </p>
+            <p class="card-text">Par
+                <%= facture.facturier.prenom %>
+                    <%= facture.facturier.nom %>
+            </p>
+        </div>
+        <div class="card-text">
+            <form action="/caisse/<%= facture._id %>" method="POST" novalidate class="validated-form">
+                <label for="montant">Montant encaissé:</label>
+                <input type="text" name="encaissement[montant]" id="montant" required>
+                <p>Montant à rendre: <i id="reste"></i> FCFA</p>
+                <button class="btn btn-primary">Valider</button>
+            </form>
+        </div>
+    </div>
+
+    <a href="/caisse" class="btn btn-primary">Retour à l'accueil</a>
+
+    <script>
+        (function () {
+            let montant = document.querySelector('#montant');
+            montant.addEventListener('input', function (e) {
+                let reste = document.querySelector('#reste');
+                let montantDu = document.querySelector('#montantDu').innerText;
+                reste.innerText = montant.value - montantDu;
+            })
+        })()
+    </script>

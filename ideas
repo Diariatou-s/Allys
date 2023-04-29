@@ -1,0 +1,7 @@
+model maladie with an array of symptomes, age most likely, etc
+we store les symptomes donné un array de model
+mannequin model partie qui fait mal
+model partie du corps avec les symptomes
+model questions avec an array of symptomes
+when the array of symptomes donné === array of model questions, we display the question
+mettre à jour les services dans la db

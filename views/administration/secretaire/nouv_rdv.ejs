@@ -1,0 +1,38 @@
+<% layout('./layouts/boilerplate')%>
+
+    <h1>Nouveau Rendez-Vous en <%= poste %> </h1>
+    <form action="/sec/nouv_rdv" method="POST" class="validated-form" novalidate>
+        <div class="row my-1">
+            <div class="col-md">
+                <label for="prenom" class="form-label">Prénom</label>
+                <input class="form-control form-control-sm" type="text" name="rdv[prenom]" id="prenom"
+                    required />
+                <div class="invalid-feedback">
+                    Veuillez correctement renseigner ce champ !
+                </div>
+            </div>
+            <div class="col-md">
+                <label for="nom" class="form-label">Nom</label>
+                <input class="form-control form-control-sm" type="text" name="rdv[nom]" id="nom"
+                    required />
+                <div class="invalid-feedback">
+                    Veuillez correctement renseigner ce champ !
+                </div>
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col-md-12">
+                <label for="daterdv" class="form-label">Date de rendez-vous</label>
+                <input class="form-control form-control-sm" type="date" name="rdv[daterdv]"
+                    id="daterdv" required />
+                <div class="invalid-feedback">
+                    Veuillez correctement renseigner ce champ !
+                </div>
+            </div>
+        </div>
+        <input type="hidden" value="<%= poste %>" name="rdv[poste]">
+        <button type="submit" class="btn btn-primary mt-5">Valider</button>
+    </form>
+    <div class="accueil d-flex justify-content-end">
+        <a href="/sec" class="btn btn-primary"">Retour à l'accueil</a>
+    </div>

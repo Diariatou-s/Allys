@@ -1,0 +1,15 @@
+<% layout('./layouts/boilerplate')%>
+
+    <h1>Consultation des rendez-vous</h1>
+
+    <div class="container-fluid">
+        <div class="list-group d-flex flex-row flex-wrap">
+            <% for(let service of services){ %>
+                <div class="services m-3">
+                    <a href="/accueil/<%= service._id %>" class="list-group-item list-group-item-action">
+                        <%= service.titre %>
+                    </a>
+                </div>
+                <% } %>
+        </div>
+    </div>

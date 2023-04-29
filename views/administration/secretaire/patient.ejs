@@ -1,0 +1,19 @@
+<% layout('./layouts/boilerplate')%>
+<div class="card text-center mb-5 pb-3">
+    <div class="card-header">
+        Numéro de dossier: <%= patient.numdossier %>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title"><%= patient.prenom %>
+                    <%= patient.nom %>
+        </h5>
+        <% for(let facture of factures){ %> 
+        <p class="card-text">
+            Facturée en <%= facture.service.titre %> le <%= facture.datecreation %>
+        </p>
+        <% } %> 
+    </div>
+</div>
+
+<a href="/sec/dossiers" class="btn btn-primary">Retour aux dossiers</a>
+<a href="/sec" class="btn btn-primary">Retour à l'accueil</a>

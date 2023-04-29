@@ -1,0 +1,15 @@
+<% layout('./layouts/boilerplate')%>
+    <div class="container-fluid my-3 p-2">
+        <h1>
+            <%= userConnected.prenom %>
+                <%= userConnected.nom %>
+        </h1>
+        <h5>
+            <%= userConnected.service %>
+        </h5>
+    </div>
+    <hr class="my-5">
+    <a href="/medecin/edt" class="btn btn-primary">Voir mon emploi du temps</a>
+    <a href="/medecin/diagnostic" class="btn btn-primary">Aide de diagnostic</a>
+    <a href="/medecin/maladie" class="btn btn-primary">Maladie</a>
+    <a href="/medecin/branche" class="btn btn-primary">Branche</a>

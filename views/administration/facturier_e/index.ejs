@@ -1,0 +1,14 @@
+<% layout('./layouts/boilerplate')%>
+
+    <div class="container-fluid my-3 p-2">
+        <h1>
+            <%= userConnected.prenom %>
+                <%= userConnected.nom %>
+        </h1>
+        <h5>
+            <%= userConnected.poste %>
+        </h5>
+    </div>
+    <hr class="my-5">
+    <a href="/fact/nouv_fact" class="btn btn-primary">Nouvelle facture</a>
+    <a href="/fact/historique" class="btn btn-primary">Historique de facturation</a>

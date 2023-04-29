@@ -1,0 +1,61 @@
+<% layout('./layouts/boilerplate')%>
+
+    <h1>Historique de facturation</h1>
+    <a href="/fact/nouv_fact" class="btn btn-primary mt-4 mx-2">Nouvelle facture</a>
+    <a href="/fact" class="btn btn-primary mt-4 mx-2">Retour à l'accueil</a>
+
+    <hr class="my-5">
+
+    <div class="table-responsive my-5">
+        <table class="table table-hover align-middle justify-center">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Date d'enregistrement</th>
+                    <th scope="col">Numéro de dossier</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Numéro CNI</th>
+                    <th scope="col">Service demandé</th>
+                    <th scope="col">Montant dû</th>
+                    <th scope="col">Statut d'encaissement</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let facture of factures) {%>
+                    <tr>
+                        <th scope="row">
+                            <%= facture.datecreation %>
+                        </th>
+                        <td>
+                            <%= facture.patient.numdossier %>
+                        </td>
+                        <td>
+                            <%= facture.patient.prenom %>
+                        </td>
+                        <td>
+                            <%= facture.patient.nom %>
+                        </td>
+                        <td>
+                            <%= facture.patient.cni %>
+                        </td>
+                        <td>
+                            <%= facture.service.titre %>
+                        </td>
+                        <td>
+                            <strong><%= facture.montantdu %></strong>
+                        </td>
+                        <td>
+                            <% if(facture.enc) {%>
+                                Encaissé
+                                <% } else { %>
+                                    Non Encaissé
+                                    <% } %>
+                        </td>
+                        <td>
+                            <a href="/fact/<%= facture._id %>" class="btn btn-primary">Afficher</a>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+    </div>

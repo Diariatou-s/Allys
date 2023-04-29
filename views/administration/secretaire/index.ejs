@@ -1,0 +1,15 @@
+<% layout('./layouts/boilerplate')%>
+
+    <div class="container-fluid my-3 p-2">
+        <h1>
+            <%= userConnected.prenom %>
+                <%= userConnected.nom %>
+        </h1>
+        <h5>
+            <%= userConnected.poste %>
+        </h5>
+    </div>
+    <hr class="my-5">
+    <a href="/sec/cons_rdv" class="btn btn-primary">Consulter les rendez-vous</a>
+    <a href="/sec/nouv_rdv" class="btn btn-primary">Marquer un nouveau rendez-vous</a>
+    <a href="/sec/dossiers" class="btn btn-primary">Consulter les dossiers des patients</a>

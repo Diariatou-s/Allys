@@ -1,0 +1,49 @@
+<% layout('./layouts/boilerplate')%>
+<a href="/fact/historique" class="btn btn-primary mb-4">Retour à l'historique</a>
+    <a href="/fact" class="btn btn-primary mb-4">Retour à l'accueil</a>
+
+    <div class="card">
+        <h2 class="card-header text-center">Facture N°<%= facture.num %> - créée le <%= facture.datecreation %>
+        </h2>
+        <div class="card-body d-flex justify-content-around">
+            <div class="patient me-3">
+                <h4 class="card-text">Patient N°<%= facture.patient.numdossier %>
+                </h4>
+                <p class="card-text">Prénom et Nom: <%= facture.patient.prenom %>
+                        <%= facture.patient.nom %>
+                </p>
+                <p class="card-text">Date et lieu de naissance: <%= facture.patient.datenaiss %> à <%=
+                            facture.patient.lieunaiss %>
+                </p>
+                <p class="card-text">Numéro CNI: <%= facture.patient.cni %>
+                </p>
+                <p class="card-text">Adresse: <%= facture.patient.adresse %>
+                </p>
+                <p class="card-text">Autres informations: <%= facture.autres %>
+                </p>
+            </div>
+            <div class="autres ms-3">
+                <h4 class="card-text">Service Demandé: <%= facture.service.titre %>
+                </h4>
+                <p class="card-text">Montant de consultation: <%= facture.service.montant %>
+                </p>
+                <p class="card-text">Imputation: <% if(facture.imputation) { %>Oui<% }else{ %>Non<% } %>
+                </p>
+                <% if(facture.pourcentage !=='0%' ) { %>
+                    <p class="card-text">Pourcentage: <%= facture.pourcentage %>
+                    </p>
+                    <% } %>
+                        <h4 class="card-text">Montant Dû: <%= facture.montantdu %>
+                        </h4>
+                        <p class="card-text">Statut d'encaissement: <% if(facture.enc) { %>Encaissé<% }else{ %>Non
+                                    Encaissé<% } %>
+                        </p>
+            </div>
+        </div>
+        <p class="card-footer text-center">
+            <a href="/fact/<%= facture._id %>/edit" class="btn btn-warning">Modifier la facture</a>
+            <form class="d-inline" action="/fact/<%=facture._id%>?_method=DELETE" method="POST">
+                <button class="btn btn-danger">Supprimer</button>
+            </form>
+        </p>
+    </div>

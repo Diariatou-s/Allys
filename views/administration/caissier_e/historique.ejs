@@ -1,0 +1,40 @@
+<% layout('./layouts/boilerplate')%>
+    <h1>Historique d'encaissement</h1>
+    <a href="/caisse" class="btn btn-primary mt-4 mx-2">Retour à l'accueil</a>
+
+    <hr class="my-5">
+
+    <div class="table-responsive my-5">
+        <table class="table table-hover align-middle justify-center">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Date d'enregistrement</th>
+                    <th scope="col">Date d'encaissement</th>
+                    <th scope="col">Numéro de facture</th>
+                    <th scope="col">Montant dû</th>
+                    <th scope="col">Montant reçu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let enc of encs) {%>
+                    <tr>
+                        <th>
+                            <%= enc.facture.datecreation %>
+                        </th>
+                        <td>
+                            <%= enc.datedencaissement %>
+                        </td>
+                        <td>
+                            <%= enc.facture.num %>
+                        </td>
+                        <td>
+                            <%= enc.montantdu %>
+                        </td>
+                        <td>
+                            <%= enc.montantrecu %>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+    </div>

@@ -1,0 +1,27 @@
+<% layout('./layouts/boilerplate')%>
+    <div class="container-fluid my-3 p-2">
+        <h1>
+            <%= userConnected.prenom %>
+                <%= userConnected.nom %>
+        </h1>
+        <h5>
+            <%= userConnected.poste %>
+        </h5>
+    </div>
+    <hr class="my-5">
+
+    <div class="container-fluid">
+        <h1>Consultation des rendez-vous</h1>
+
+        <div class="container-fluid">
+            <div class="list-group d-flex flex-row flex-wrap">
+                <% for(let service of services){ %>
+                    <div class="services m-3">
+                        <a href="/accueil/<%= service._id %>" class="list-group-item list-group-item-action">
+                            <%= service.titre %>
+                        </a>
+                    </div>
+                    <% } %>
+            </div>
+        </div>
+    </div>

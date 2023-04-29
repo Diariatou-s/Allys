@@ -1,0 +1,38 @@
+<% layout('./layouts/boilerplate')%>
+    <h1>Rendez-Vous en <%= service.titre %>
+    </h1>
+    <a href="/accueil" class="btn btn-primary my-3">Retour à l'accueil</a>
+    <div class="table-responsive mt-3">
+        <table class="table table-hover align-middle justify-center">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Date de rendez-vous</th>
+                    <th scope="col">Numéro</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Date de prise de rendez-vous</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let rdv of rdvs){ %> 
+                <tr>
+                    <td scope="row">
+                        <%= rdv.daterdv %>
+                    </td>
+                    <td scope="row">
+                        <%= rdv.num %>
+                    </td>
+                    <td scope="row">
+                        <%= rdv.prenom %>
+                    </td>
+                    <td scope="row">
+                        <%= rdv.nom %>
+                    </td>
+                    <td scope="row">
+                        <%= rdv.datecreation %>
+                    </td>
+                </tr>
+                <% } %> 
+            </tbody>
+        </table>
+    </div>

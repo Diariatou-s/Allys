@@ -1,0 +1,13 @@
+<% layout('./layouts/boilerplate')%>
+<h1>Dossiers des patients en <%= poste %> </h1>
+<a href="/sec" class="btn btn-primary my-5">Retour à l'accueil</a>
+<% for(let patient of patients) {%> 
+    <div class="card m-3" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Numéro de dossier: <%= patient.numdossier %></h5>
+          <p class="card-text"><%= patient.prenom %> <%= patient.nom %></p>
+          <p class="card-text">CNI N°<%= patient.cni %></p>
+          <a href="/sec/<%= patient._id %> " class="btn btn-primary">Voir</a>
+        </div>
+      </div>
+<% } %> 

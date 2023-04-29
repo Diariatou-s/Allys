@@ -1,0 +1,148 @@
+<% layout('./layouts/boilerplate')%>
+    <a href="/fact/historique" class="btn btn-primary mb-4">Annuler</a>
+
+
+    <h1>Modification de la facture N°<%= fact.num %>
+    </h1>
+    <form action="/fact/<%= fact._id %>?_method=PUT" method="POST" novalidate class="validated-form"
+        >
+        <div class="row my-1">
+            <div class="col-md">
+                <label for="prenom" class="form-label">Prénom</label>
+                <input class="form-control form-control-sm" type="text" name="facture[patient][prenom]" id="prenom"
+                    value="<%= fact.patient.prenom %>" required />
+                <div class="invalid-feedback">
+                    Veuillez correctement renseigner ce champ !
+                </div>
+            </div>
+            <div class="col-md">
+                <label for="nom" class="form-label">Nom</label>
+                <input class="form-control form-control-sm" type="text" name="facture[patient][nom]" id="nom"
+                    value="<%= fact.patient.nom %>" required />
+                <div class="invalid-feedback">
+                    Veuillez correctement renseigner ce champ !
+                </div>
+            </div>
+            <div class="col-md">
+                <label for="cni" class="form-label">Numéro CNI</label>
+                <input class="form-control form-control-sm" type="number" name="facture[patient][cni]" id="cni"
+                    value="<%= fact.patient.cni %>" required />
+                <div class="invalid-feedback">
+                    Veuillez correctement renseigner ce champ !
+                </div>
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col-md-8">
+                <label for="adresse" class="form-label">Adresse</label>
+                <input class="form-control form-control-sm" type="text" name="facture[patient][adresse]" id="adresse"
+                    value="<%= fact.patient.adresse %>" required />
+                <div class="invalid-feedback">
+                    Veuillez correctement renseigner ce champ !
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="numtel" class="form-label">Numéro de téléphone</label>
+                <input class="form-control form-control-sm" type="text" name="facture[patient][telephone]" id="numtel"
+                    value="<%= fact.patient.telephone %>" required />
+                <div class="invalid-feedback">
+                    Veuillez correctement renseigner ce champ !
+                </div>
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col-md-4">
+                <label for="datenaiss" class="form-label">Date de naissance</label>
+                <input class="form-control form-control-sm" type="date" name="facture[patient][datenaiss]"
+                    id="datenaiss" value="<%= fact.patient.datenaiss %>" required />
+                <div class="invalid-feedback">
+                    Veuillez correctement renseigner ce champ !
+                </div>
+            </div>
+            <div class="col-md-8">
+                <label for="lieunaiss" class="form-label">Lieu de naissance</label>
+                <input class="form-control form-control-sm" type="text" name="facture[patient][lieunaiss]"
+                    id="lieunaiss" value="<%= fact.patient.lieunaiss %>" required />
+                <div class="invalid-feedback">
+                    Veuillez correctement renseigner ce champ !
+                </div>
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col-md">
+                <label for="service" class="form-label">Service Demandé</label>
+                <select class="form-select form-select-sm" name="facture[service]" id="service"
+                    aria-label=".form-select-sm service" required>
+                    <% for (let service of services) {%>
+                        <option value="<%=service._id%>">
+                            <%= service.titre %>
+                        </option>
+                        <% } %>
+                </select>
+                <div class="invalid-feedback">
+                    Veuillez correctement renseigner ce champ !
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="row">
+                    <label class="form-label" for="form-check-inline">Imputation</label>
+                </div>
+                <div class="row">
+                    <div class="col-md">
+                        <div class="form-check form-check-inline" id="form-check-inline">
+                            <input class="form-check-input" type="radio" name="facture[imputation]" id="non"
+                                value="false" <% if(!fact.imputation){%>checked<% } %>>
+                                <label class="form-check-label" for="non">Non</label>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-check form-check-inline" id="form-check-inline">
+                            <input class="form-check-input" type="radio" name="facture[imputation]" id="oui"
+                                value="true" <% if(fact.imputation){%>checked<% } %>>
+                                <label class="form-check-label" for="oui">Oui</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="pourcentage <% if(!fact.imputation){%>d-none<% } %>">
+                    <label for="pourcentage" class="form-label">Pourcentage</label>
+                    <div class="input-group">
+                        <input class="form-control form-control-sm" type="text" name="facture[pourcentage]"
+                            id="pourcentage" value="<%= pourcentage %>" />
+                        <div class="input-group-text">%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col-md">
+                <label for="infos">Autres Infos</label>
+                <textarea class="form-control" id="infos" name="facture[autres]"><%= fact.autres %></textarea>
+                <div class="invalid-feedback">
+                    Veuillez correctement renseigner ce champ !
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary mt-5">Valider</button>
+    </form>
+    <div class="accueil d-flex justify-content-end">
+        <a href="/fact" class="btn btn-primary"">Retour à l'accueil</a>
+    </div>
+
+    <script>
+        const oui = document.querySelector('#oui')
+        const non = document.querySelector('#non')
+        const pourcentage = document.querySelector('.pourcentage')
+        console.log(oui)
+        console.log(pourcentage)
+
+        oui.addEventListener('change', e => {
+            pourcentage.classList.toggle('d-none')
+        });
+
+        non.addEventListener('change', e => {
+            pourcentage.classList.toggle('d-none')
+        });
+
+    </script>
