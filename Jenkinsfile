@@ -1,5 +1,3 @@
-// def project_token = '....'
-// def webhooks_url = "..."
 
 pipeline{
     agent any
@@ -13,7 +11,6 @@ pipeline{
          repo = "${JOB_NAME}"
          DOCKER_REGISTRY_USER= 'diariatou'
          DOCKER_REGISTRY_USER_PASSWORD= 'Sertygytoi'
-        //  TOKEN_SONAR= '...'
         }
     tools {
         nodejs 'node'
@@ -44,13 +41,6 @@ pipeline{
                 }
 }
 
-            //   stage('SonarQube analysis') {
-            //       steps{
-            //       withSonarQubeEnv(credentialsId: 'sonar', installationName:"Sonar") {
-            //           sh 'mvn sonar:sonar -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${TOKEN_SONAR}'
-            //         }
-            //     }
-            //   }
         stage('Upload Tar to nexus'){
             steps{
                 
