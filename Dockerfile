@@ -6,4 +6,4 @@ RUN npm install
 EXPOSE 3000
 ENV MONGO_URI mongodb://localhost:27017/allys
 ENV MONGO_INITDB_DATABASE allys
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
