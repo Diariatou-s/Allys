@@ -55,13 +55,13 @@ pipeline{
         //         version: '0.0.1-SNAPSHOT'
         //     }
         // }
-        // stage('Build Image'){
-        //     steps{
-        //         script {
-        //             sh "docker build -t ${DOCKER_REGISTRY_URL}/${env.imageName} ."
-        //         }
-        //     }
-        // }
+        stage('Build Image'){
+            steps{
+                script {
+                    sh "docker build -t allys ."
+                }
+            }
+        }
         // stage('Connect To Registry'){
         //     steps{
         //         sh "docker logout"
@@ -92,21 +92,21 @@ pipeline{
         //         }
         //     }
         // }
-        stage("Message"){
-            steps{
-                post {
-   			        failure {
-       			        mail to: 'diarrasylla15@gmail.com',
-             	        subject: "**Failed Pipeline**: ${currentBuild.fullDisplayName}",
-             	        body: "Something is wrong with ${env.BUILD_URL}"
-                    }
-                    success{
-                        mail to: 'diarrasylla15@gmail.com',
-                        subject: "**Success Pipeline**:${currentBuild.fullDisplayName}",
-           		        body: "Success of your build, here is the link of the build ${env.BUILD_URL}"
-                    }
-                }
-            }
-        }
+        // stage("Message"){
+        //     steps{
+        //         post {
+   		// 	        failure {
+       	// 		        mail to: 'diarrasylla15@gmail.com',
+        //      	        subject: "**Failed Pipeline**: ${currentBuild.fullDisplayName}",
+        //      	        body: "Something is wrong with ${env.BUILD_URL}"
+        //             }
+        //             success{
+        //                 mail to: 'diarrasylla15@gmail.com',
+        //                 subject: "**Success Pipeline**:${currentBuild.fullDisplayName}",
+        //    		        body: "Success of your build, here is the link of the build ${env.BUILD_URL}"
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
