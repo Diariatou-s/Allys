@@ -12,11 +12,11 @@ pipeline{
     //      DOCKER_REGISTRY_USER= 'diariatou'
     //      DOCKER_REGISTRY_USER_PASSWORD= 'Sertygytoi123,'
     //     }
-    // tools {
-    //     // def scannerHome = tool 'SonarScanner';
-    //     nodejs 'node'
-    //     dockerTool 'docker'
-    // }
+    tools {
+        // def scannerHome = tool 'SonarScanner';
+        nodejs 'node'
+        dockerTool 'docker'
+    }
     stages{
         stage('SCM Checkout') {
             steps {
