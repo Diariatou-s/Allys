@@ -57,12 +57,8 @@ pipeline{
         stage('Build Docker Image') {
             steps {
                 script {
-                    def imageTag = 'allys-pr:1.0.0'
-                    def dockerfilePath = '.'
-                    def imageName = 'allys'
-
-                    def app = docker.build("-t ${imageTag} -f ${dockerfilePath} ${imageName}")
-                    //app.save("./${imageName}:${imageTag}")
+                    def app = docker.build("-t allys:1.0.0 -f . .")
+                    app.save("./${imageName}:${imageTag}")
                 }
             }
         }
