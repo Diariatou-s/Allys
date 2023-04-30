@@ -57,7 +57,7 @@ pipeline{
         stage('Build Docker Image') {
             steps {
                 script {
-                    def imageTag = 'allys:1.0.0'
+                    def imageTag = 'allys-pr:1.0.0'
                     def dockerfilePath = '.'
                     def imageName = 'allys-pr'
 
@@ -68,8 +68,8 @@ pipeline{
         }
         stage('Save Docker Image') {
             steps {
-                sh "docker save allys:1.0.0 -o ./allys.tar"
-                stash includes: './allys.tar', name: 'allys'
+                sh "docker save allys-pr:1.0.0 -o ./allys.tar"
+                stash includes: './allys-pr.tar', name: 'allys-pr'
             }
         }
         // stage('Connect To Registry'){
