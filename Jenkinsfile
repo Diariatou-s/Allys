@@ -54,9 +54,22 @@ pipeline{
         //         version: '0.0.1-SNAPSHOT'
         //     }
         // }
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
-                def app = docker.build("allys")
+                script {
+                    def imageTag = 'allys:1.0.0'
+                    def dockerfilePath = '.'
+                    def imageName = 'allys'
+
+                    def app = docker.build("-t ${imageTag} -f ${dockerfilePath} ${imageName}")
+                    app.push()
+                }
+            }
+        }
+        stage('Save Docker Image') {
+            steps {
+                sh "docker save allys:1.0.0 -o ./allys.tar"
+                stash includes: './allys.tar', name: 'allys'
             }
         }
         // stage('Connect To Registry'){
