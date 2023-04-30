@@ -92,7 +92,8 @@ pipeline{
                 }
             }
         }
-        post {
+        stage("Message"){
+            post {
    			failure {
        			mail to: 'diarrasylla15@gmail.com',
              	subject: "**Failed Pipeline**: ${currentBuild.fullDisplayName}",
@@ -103,6 +104,7 @@ pipeline{
                 subject: "**Success Pipeline**:${currentBuild.fullDisplayName}",
            		    body: "Success of your build, here is the link of the build ${env.BUILD_URL}"
             }
+        }
         }
     }
 }
