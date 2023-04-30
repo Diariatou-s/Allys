@@ -61,8 +61,8 @@ pipeline{
                     def dockerfilePath = 'C:\\Users\\DiariatouSylla\\Documents\\PERSONAL\\DIT - M1\\Semestre 1\\DevOps\\Allys'
                     def imageName = 'allys-pr'
 
-                    def app = docker.build("-t ${imageTag} -f ${dockerfilePath} ${imageName}")
-                    app.save("./${imageName}:${imageTag}")
+                    //def app = docker.build("-t ${imageTag} -f ${dockerfilePath} ${imageName}")
+                    //app.save("./${imageName}:${imageTag}")
                 }
             }
         }
