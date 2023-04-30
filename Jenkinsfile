@@ -20,13 +20,12 @@ pipeline{
     stages{
         stage('SCM Checkout') {
             steps {
-                git(branch: 'main', credentialsId: 'github',  url:'https://github.com/Diariatou-s/Allys.git')                   
+                git(branch: 'main', credentialsId: 'allys-pr',  url:'https://github.com/Diariatou-s/Allys.git')                   
             }
         }
         stage('Check Packages'){
             steps {
-                sh 'npm install'
-                // sh 'npm run build'
+                sh 'npm install --production'
             }
         }
         // stage('SonarQube Analysis') {
@@ -55,10 +54,10 @@ pipeline{
         //         version: '0.0.1-SNAPSHOT'
         //     }
         // }
-        stage('Build Image'){
-            steps{
-                script {
-                    sh "docker build -t allys ."
+        stage('Build') {
+            steps {
+                docker.withServer('tcp://localhost:2375') {
+                    docker.image('allys').build()
                 }
             }
         }
