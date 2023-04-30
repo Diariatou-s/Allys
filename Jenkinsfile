@@ -55,13 +55,13 @@ pipeline{
         //         version: '0.0.1-SNAPSHOT'
         //     }
         // }
-        stage('Build Image'){
-            steps{
-                script {
-                    sh "docker build -t ${DOCKER_REGISTRY_URL}/${env.imageName} ."
-                }
-            }
-        }
+        // stage('Build Image'){
+        //     steps{
+        //         script {
+        //             sh "docker build -t ${DOCKER_REGISTRY_URL}/${env.imageName} ."
+        //         }
+        //     }
+        // }
         // stage('Connect To Registry'){
         //     steps{
         //         sh "docker logout"
