@@ -10,7 +10,7 @@ pipeline{
          dockerImageVersion = 'SNAPSHOT-1.0.0'
          repo = "${JOB_NAME}"
          DOCKER_REGISTRY_USER= 'diariatou'
-         DOCKER_REGISTRY_USER_PASSWORD= 'Sertygytoi'
+         DOCKER_REGISTRY_USER_PASSWORD= 'Sertygytoi123,'
         }
     tools {
         nodejs 'node'
