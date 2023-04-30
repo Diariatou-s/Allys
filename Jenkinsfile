@@ -59,7 +59,7 @@ pipeline{
                 script {
                     def imageTag = 'allys:1.0.0'
                     def dockerfilePath = '.'
-                    def imageName = 'allys'
+                    def imageName = 'allys-pr'
 
                     def app = docker.build("-t ${imageTag} -f ${dockerfilePath} ${imageName}")
                     app.push()
