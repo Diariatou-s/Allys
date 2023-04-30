@@ -57,7 +57,7 @@ pipeline{
         stage('Build Docker Image') {
             steps {
                 script {
-                    def app = docker.build("-t allys:1.0.0 -f . .")
+                    def app = docker.build("allys-pr:1.0.0")
                     app.save("./allys:1.0.0")
                 }
             }
