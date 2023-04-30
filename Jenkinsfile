@@ -2,7 +2,7 @@
 pipeline{
     agent any
     options {
-		
+		skipDefaultCheckout()
 	}
     environment {
         USER_NAME = 'diariatou'
@@ -13,6 +13,7 @@ pipeline{
          DOCKER_REGISTRY_USER_PASSWORD= 'Sertygytoi123,'
         }
     tools {
+        def scannerHome = tool 'SonarScanner';
         nodejs 'node'
         dockerTool 'DOCKER'
     }
@@ -25,10 +26,10 @@ pipeline{
         stage('Check Packages'){
             steps {
                 sh 'npm install'
+                sh 'npm run build'
             }
         }
         stage('SonarQube Analysis') {
-            def scannerHome = tool 'SonarScanner';
             steps{
                 withSonarQubeEnv() {
                     sh "${scannerHome}/bin/sonar-scanner"
