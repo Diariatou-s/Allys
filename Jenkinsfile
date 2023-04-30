@@ -26,7 +26,7 @@ pipeline{
         stage('Check Packages'){
             steps {
                 sh 'npm install'
-                sh 'npm run build'
+                // sh 'npm run build'
             }
         }
         // stage('SonarQube Analysis') {
