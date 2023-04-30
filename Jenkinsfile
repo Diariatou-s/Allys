@@ -121,7 +121,7 @@ pipeline {
     stage('Checkout') {
       steps {
         // Checkout code from GitHub repository
-        git 'https://github.com/myuser/myapp.git'
+        git 'https://github.com/Diariatou-s/Allys.git'
       }
     }
     
@@ -136,8 +136,8 @@ pipeline {
     stage('SonarQube scan') {
       environment {
         // Set environment variables for SonarQube scan
-        SONAR_HOST_URL = 'http://sonarqube:9000'
-        SONAR_LOGIN = credentials('sonarqube-login')
+        SONAR_HOST_URL = 'http://localhost:9000'
+        SONAR_LOGIN = credentials('admin')
       }
       steps {
         // Run SonarQube scan on code
