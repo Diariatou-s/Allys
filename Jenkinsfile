@@ -56,7 +56,9 @@ pipeline{
         // }
         stage('Build') {
             steps {
-                app = docker.build("allys")
+                docker.withServer('tcp://localhost:2375') {
+                    docker.image('allys').build()
+                }
             }
         }
         // stage('Connect To Registry'){
