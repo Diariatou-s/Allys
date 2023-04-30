@@ -15,7 +15,7 @@ pipeline{
     tools {
         // def scannerHome = tool 'SonarScanner';
         nodejs 'node'
-        dockerTool 'DOCKER'
+        dockerTool 'docker'
     }
     stages{
         stage('SCM Checkout') {
