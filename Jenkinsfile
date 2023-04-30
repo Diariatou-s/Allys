@@ -57,8 +57,8 @@ pipeline{
         stage('Build Docker Image') {
             steps {
                 script {
-                    //def imageTag = 'allys-pr:1.0.0'
-                    def dockerfilePath = 'C:\\Users\\DiariatouSylla\\Documents\\PERSONAL\\DIT - M1\\Semestre 1\\DevOps\\Allys'
+                    //def imageTag = 'allys-pr'
+                    def dockerfilePath = '.'
                     def imageName = 'allys-pr'
 
                     //def app = docker.build("-t ${imageTag} -f ${dockerfilePath} ${imageName}")
