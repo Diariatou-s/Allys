@@ -13,7 +13,7 @@ pipeline{
          DOCKER_REGISTRY_USER_PASSWORD= 'Sertygytoi123,'
         }
     tools {
-        def scannerHome = tool 'SonarScanner';
+        // def scannerHome = tool 'SonarScanner';
         nodejs 'node'
         dockerTool 'DOCKER'
     }
@@ -29,13 +29,13 @@ pipeline{
                 sh 'npm run build'
             }
         }
-        stage('SonarQube Analysis') {
-            steps{
-                withSonarQubeEnv() {
-                    sh "${scannerHome}/bin/sonar-scanner"
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps{
+        //         withSonarQubeEnv() {
+        //             sh "${scannerHome}/bin/sonar-scanner"
+        //         }
+        //     }
+        // }
         stage('Upload Tar to nexus'){
             steps{
                 nexusArtifactUploader artifacts: [
