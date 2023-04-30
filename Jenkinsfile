@@ -115,59 +115,46 @@
 
 
 pipeline {
-    agent any
-    
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                sh 'npm install'
-            }
-        }
-        
-        stage('Test') {
-            steps {
-                sh 'npm test'
-            }
-        }
-        
-        stage('SonarQube analysis') {
-            environment {
-                SONARQUBE_HOME = tool 'SonarQubeScanner'
-            }
-            
-            steps {
-                script {
-                    def scannerHome = tool 'SonarQubeScanner'
-                    withSonarQubeEnv('SonarQube Server') {
-                        sh "${scannerHome}/bin/sonar-scanner"
-                    }
-                }
-            }
-        }
-        
-        stage('Build and push Docker image') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'nexus-credentials', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-                    script {
-                        def image = docker.build("my-nexus-repo/my-image:${env.BUILD_NUMBER}")
-                        docker.withRegistry("https://my-nexus-repo.com", "docker") {
-                            image.push()
-                        }
-                    }
-                }
-            }
-        }
+  agent any
+  
+  stages {
+    stage('Checkout') {
+      steps {
+        // Checkout code from GitHub repository
+        git 'https://github.com/myuser/myapp.git'
+      }
     }
     
-    post {
-        always {
-            deleteDir()
-        }
+    stage('Build and test') {
+      steps {
+        // Build Docker image and run tests
+        sh 'docker build -t myapp .'
+        sh 'docker run --rm myapp npm test'
+      }
     }
+    
+    stage('SonarQube scan') {
+      environment {
+        // Set environment variables for SonarQube scan
+        SONAR_HOST_URL = 'http://sonarqube:9000'
+        SONAR_LOGIN = credentials('sonarqube-login')
+      }
+      steps {
+        // Run SonarQube scan on code
+        sh 'docker run --rm -e SONAR_HOST_URL=$SONAR_HOST_URL -e SONAR_LOGIN=$SONAR_LOGIN -v "$PWD:/usr/src" sonarsource/sonar-scanner-cli'
+      }
+    }
+    
+    stage('Push to Nexus') {
+      steps {
+        // Push Docker image to local Nexus container
+        withCredentials([usernamePassword(credentialsId: 'nexus-login', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+          sh 'docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWORD my-nexus-repo:8081'
+          sh 'docker tag myapp my-nexus-repo:8081/myapp:latest'
+          sh 'docker push my-nexus-repo:8081/myapp:latest'
+        }
+      }
+    }
+  }
 }
+
