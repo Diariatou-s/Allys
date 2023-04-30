@@ -4,19 +4,19 @@ pipeline{
     // options {
 	// 	skipDefaultCheckout()
 	// }
-    environment {
-        USER_NAME = 'diariatou'
-         imageName = "allys"
-         dockerImageVersion = 'SNAPSHOT-1.0.0'
-         repo = "${JOB_NAME}"
-         DOCKER_REGISTRY_USER= 'diariatou'
-         DOCKER_REGISTRY_USER_PASSWORD= 'Sertygytoi123,'
-        }
-    tools {
-        // def scannerHome = tool 'SonarScanner';
-        nodejs 'node'
-        dockerTool 'docker'
-    }
+    // environment {
+    //     USER_NAME = 'diariatou'
+    //      imageName = "allys"
+    //      dockerImageVersion = 'SNAPSHOT-1.0.0'
+    //      repo = "${JOB_NAME}"
+    //      DOCKER_REGISTRY_USER= 'diariatou'
+    //      DOCKER_REGISTRY_USER_PASSWORD= 'Sertygytoi123,'
+    //     }
+    // tools {
+    //     // def scannerHome = tool 'SonarScanner';
+    //     nodejs 'node'
+    //     dockerTool 'docker'
+    // }
     stages{
         stage('SCM Checkout') {
             steps {
