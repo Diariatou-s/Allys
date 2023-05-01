@@ -1,17 +1,6 @@
 
 pipeline{
     agent any
-    // options {
-	// 	skipDefaultCheckout()
-	// }
-    environment {
-        USER_NAME = 'diariatou'
-         imageName = "allys"
-         dockerImageVersion = 'SNAPSHOT-1.0.0'
-         repo = "${JOB_NAME}"
-         DOCKER_REGISTRY_USER= 'diariatou'
-         DOCKER_REGISTRY_USER_PASSWORD= 'Sertygytoi123,'
-        }
     tools {
         // def scannerHome = tool 'SonarScanner';
         nodejs 'node'
@@ -26,11 +15,6 @@ pipeline{
         stage('Check Packages'){
             steps {
                 sh 'npm install --production'
-            }
-        }
-        stage('Whami'){
-            steps {
-                sh 'whoami'
             }
         }
         // stage('SonarQube Analysis') {
@@ -61,10 +45,11 @@ pipeline{
         // }
         stage('Build Docker Image') {
             steps {
-                script {
-                    def app = docker.build("allys-pr:1.0.0")
-                    app.save("./allys:1.0.0")
-                }
+                // script {
+                //     def app = docker.build("allys-pr:1.0.0")
+                //     app.save("./allys:1.0.0")
+                // }
+                sh 'docker build -t my-project:latest .'
             }
         }
         // stage('Save Docker Image') {
