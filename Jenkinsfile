@@ -28,6 +28,11 @@ pipeline{
                 sh 'npm install --production'
             }
         }
+        stage('Whami'){
+            steps {
+                sh 'whoami'
+            }
+        }
         // stage('SonarQube Analysis') {
         //     steps{
         //         withSonarQubeEnv() {
