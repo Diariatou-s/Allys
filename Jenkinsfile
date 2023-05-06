@@ -49,7 +49,7 @@ pipeline{
                 //     def app = docker.build("allys-pr:1.0.0")
                 //     app.save("./allys:1.0.0")
                 // }
-                sh 'docker build -t my-project:latest .'
+                sh 'docker build -t allys-pr:1.0.0 .'
             }
         }
         // stage('Save Docker Image') {
