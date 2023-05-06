@@ -1,2 +1,3 @@
 # DevOps Project
-This a project made with NodeJS and ExpressJS for the administration of a medical center
+This is a project made with NodeJS and ExpressJS.
+That is an app for the administration of a medical center.
