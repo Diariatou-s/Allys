@@ -1,15 +1,14 @@
-
 pipeline{
     agent any
-    tools {
-        // def scannerHome = tool 'SonarScanner';
-        nodejs 'node'
-        dockerTool 'docker'
+    environment {
+        GIT_CRED = credentials('allys-pr')
+        SONARQUBE_CRED = credentials('allys-sonarqube')
+        imageName = "allys-pr"
     }
     stages{
         stage('SCM Checkout') {
             steps {
-                git(branch: 'main', credentialsId: 'allys-pr',  url:'https://github.com/Diariatou-s/Allys.git')                   
+                git(branch: 'main', credentialsId: $GIT_CRED,  url:'https://github.com/Diariatou-s/Allys.git')                   
             }
         }
         stage('Check Packages'){
@@ -17,92 +16,67 @@ pipeline{
                 sh 'npm install --production'
             }
         }
-        // stage('SonarQube Analysis') {
-        //     steps{
-        //         withSonarQubeEnv() {
-        //             sh "${scannerHome}/bin/sonar-scanner"
-        //         }
-        //     }
-        // }
-        // stage('Upload Tar to nexus'){
-        //     steps{
-        //         nexusArtifactUploader artifacts: [
-        //             [
-        //                 artifactId: 'allys',
-        //                 classifier: '',
-        //                 file: 'target/allys-0.0.1-SNAPSHOT.tar',
-        //                 type: 'tar'
-        //             ]
-        //         ],
-        //         credentialsId: 'nexus',
-        //         groupId: 'allys',
-        //         nexusUrl: 'localhost:8081',
-        //         nexusVersion: 'nexus3',
-        //         protocol: 'http',
-        //         repository: 'allys',
-        //         version: '0.0.1-SNAPSHOT'
-        //     }
-        // }
         stage('Build Docker Image') {
             steps {
-                // script {
-                //     def app = docker.build("allys-pr:1.0.0")
-                //     app.save("./allys:1.0.0")
-                // }
-                sh 'docker build -t allys-pr:1.0.0 .'
+                docker.build("${env.imageName}:${env.BUILD_NUMBER}")
             }
         }
-        // stage('Save Docker Image') {
-        //     steps {
-        //         sh "docker save allys-pr:1.0.0 -o ./allys-pr.tar"
-        //         stash includes: './allys-pr.tar', name: 'allys-pr'
-        //     }
-        // }
-        // stage('Connect To Registry'){
-        //     steps{
-        //         sh "docker logout"
-        //         sh "docker login ${DOCKER_REGISTRY_URL} --username ${env.DOCKER_REGISTRY_USER} --password ${env.DOCKER_REGISTRY_USER_PASSWORD}"
-        //     }
-        // }
-        // stage ('Push Docker Image'){
-        //     steps{
-        //         script{
-        //             sh "docker push ${DOCKER_REGISTRY_URL}/${env.imageName}:latest" 
-        //         }
-        //     }
-        // }
-        // stage ('Delete Tempory Image'){
-        //     steps{
-        //         sh "docker rmi ${DOCKER_REGISTRY_URL}/${env.imageName}:latest"
-        //     }
-        // }
-        // stage('Deploy to cluster') {
-        //     steps {
-        //         script {
-        //             sshagent(['demodeploy']) {
-        //                 sh'ssh -oStrictHostKeyChecking=no root@10.0.0.20 kubectl delete deploy --ignore-not-found=true allys'
-        //                 sh'ssh -oStrictHostKeyChecking=no root@10.0.0.20 kubectl delete svc --ignore-not-found=true demo-svc'
-        //                 sh 'ssh -oStrictHostKeyChecking=no root@10.0.0.20 kubectl apply -f /var/lib/jenkins/workspace/allys@2/deploymentservice.yml'
-        //                 sh 'sleep 30'
-        //             } 
-        //         }
-        //     }
-        // }
-        // stage("Message"){
-        //     steps{
-        //         post {
-   		// 	        failure {
-       	// 		        mail to: 'diarrasylla15@gmail.com',
-        //      	        subject: "**Failed Pipeline**: ${currentBuild.fullDisplayName}",
-        //      	        body: "Something is wrong with ${env.BUILD_URL}"
-        //             }
-        //             success{
-        //                 mail to: 'diarrasylla15@gmail.com',
-        //                 subject: "**Success Pipeline**:${currentBuild.fullDisplayName}",
-        //    		        body: "Success of your build, here is the link of the build ${env.BUILD_URL}"
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Test') {
+            steps {
+                // Run tests on the Docker image
+                script {
+                        docker.image("${env.imageName}:${env.BUILD_NUMBER}").withRun("-p 3000:3000") { 
+                        sh 'npm test'
+                    }
+                }
+            }
+        }
+        stage('SonarQube Scan') {
+            environment {
+                SONARQUBE_URL = "http://localhost:9000"
+                SONARQUBE_TOKEN = $SONARQUBE_CRED
+            }
+            steps {
+                // Run the SonarQube scan
+                withSonarQubeEnv('SonarQube') {
+                    sh "npm run sonarqube -Dsonar.projectKey=allys-pr -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=$SONARQUBE_TOKEN"
+                }
+            }
+        }
+        stage('Push') {
+            environment {
+                NEXUS_URL = "http://localhost:8081"
+                NEXUS_CRED_ID = "allys-pr"
+                DOCKER_REGISTRY = "docker-cr"
+            }
+            steps {
+                // Login to the Docker registry
+                withCredentials([usernamePassword(credentialsId: NEXUS_CRED_ID, usernameVariable: 'diariatou', passwordVariable: 'NexUs_pSswd')]) {
+                    sh "docker login -u $NEXUS_USER -p $NEXUS_PASSWORD $NEXUS_URL/$DOCKER_REGISTRY"
+                }
+                
+                // Tag the Docker image for Nexus repository
+                script {
+                    docker.tag("${env.imageName}:${env.BUILD_NUMBER}", "$NEXUS_URL/$DOCKER_REGISTRY/${env.imageName}:${env.BUILD_NUMBER}")
+                }
+                
+                // Push the Docker image to Nexus repository
+                sh "docker push $NEXUS_URL/$DOCKER_REGISTRY/${env.imageName}:${env.BUILD_NUMBER}"
+            }
+        }
+    }
+    post {
+        success {
+            // Send email notification upon success
+            mail to: 'diarrasylla15@gmail.com',
+                 subject: 'Build Succeeded!',
+                 body: "Your build succeeded!"
+        }
+        failure {
+            // Send email notification upon failure
+            mail to: 'diarrasylla15@gmail.com',
+                 subject: 'Build Failed!',
+                 body: "Your build failed! Please check the build log for more information."
+        }
     }
 }
