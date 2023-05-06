@@ -3,6 +3,7 @@ version: "3"
 services:
   jenkins:
     image: jenkins/jenkins:lts
+    privileged: true
     ports:
       - "8080:8080"
     volumes:
@@ -12,6 +13,7 @@ services:
 
   sonarqube:
     image: sonarqube:lts
+    privileged: true
     ports:
       - "9000:9000"
     volumes:
@@ -23,6 +25,7 @@ services:
 
   nexus:
     image: sonatype/nexus3
+    privileged: true
     ports:
       - "8081:8081"
     volumes:
