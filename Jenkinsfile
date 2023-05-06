@@ -8,7 +8,7 @@ pipeline{
     stages{
         stage('SCM Checkout') {
             steps {
-                git(branch: 'main', credentialsId: $GIT_CRED,  url:'https://github.com/Diariatou-s/Allys.git')                   
+                git(branch: 'main', credentialsId: "$GIT_CRED",  url:'https://github.com/Diariatou-s/Allys.git')                   
             }
         }
         stage('Check Packages'){
@@ -34,11 +34,11 @@ pipeline{
         stage('SonarQube Scan') {
             environment {
                 SONARQUBE_URL = "http://localhost:9000"
-                SONARQUBE_TOKEN = $SONARQUBE_CRED
+                SONARQUBE_TOKEN = "$SONARQUBE_CRED"
             }
             steps {
                 // Run the SonarQube scan
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv {
                     sh "npm run sonarqube -Dsonar.projectKey=allys-pr -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=$SONARQUBE_TOKEN"
                 }
             }
@@ -51,8 +51,8 @@ pipeline{
             }
             steps {
                 // Login to the Docker registry
-                withCredentials([usernamePassword(credentialsId: NEXUS_CRED_ID, usernameVariable: 'diariatou', passwordVariable: 'NexUs_pSswd')]) {
-                    sh "docker login -u $NEXUS_USER -p $NEXUS_PASSWORD $NEXUS_URL/$DOCKER_REGISTRY"
+                withCredentials([usernamePassword(credentialsId: NEXUS_CRED_ID, usernameVariable: 'diariatou', passwordVariable: 'allys_nexus_passwd')]) {
+                    sh "docker login -u $diariatou -p $allys_nexus_passwd $NEXUS_URL/$DOCKER_REGISTRY"
                 }
                 
                 // Tag the Docker image for Nexus repository
